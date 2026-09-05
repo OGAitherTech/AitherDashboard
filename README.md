@@ -1,32 +1,38 @@
 # AitherDashboard
 
-AitherDashboard is the central web dashboard for viewing data exposed by AitherBackend.
+AitherDashboard is the central control panel for a user's shared Aither account and cloud data.
 
 ## Version
 
-AitherDashboard v1.2.0
+AitherDashboard v1.3.0
+
+## My Data
+
+The **My Data** section reads `GET /api/data` from AitherBackend and displays the signed-in user's synchronized Aither service data grouped by app. It is designed to be the central place to inspect data from Notes, Clock, Calculator, Maps, AI, Web, Weather, Aither Apps, and Aither Forge.
+
+The dashboard never asks for another service's password or private API key. Data access is authorized by the same AitherBackend session used across the ecosystem.
 
 ## Shared Aither Account
 
-The dashboard now includes the shared Aither account UI. Create or sign in with the same Aither account used by Aither Notes, Maps, Clock, Calculator, AI, Web, and the other Aither services.
+Create or sign in with the same Aither account used by the Aither services.
 
 - `POST /api/auth/register`
 - `POST /api/auth/login`
 - `GET /api/auth/session`
 - `POST /api/auth/logout`
+- `GET /api/data`
 - Default backend: `https://aither-backend.onrender.com`
 - Session cookies are sent with credentialed requests.
 
 ## Features
 
 - Responsive desktop and mobile UI
-- Direct connection to the production AitherBackend deployment
 - Shared Aither account creation and sign-in
+- Central **My Data** cloud view
+- Per-service synchronized data cards with expandable JSON inspection
 - Aither Backend session/account status
-- Account profile data
 - Connected app registry
-- Backend updates
-- Notifications
+- Backend updates and notifications
 - Backend status, health, version, and environment
 - Configurable backend URL for development or alternate deployments
 - Cookie-based authentication support with `credentials: include`
@@ -35,9 +41,7 @@ The dashboard now includes the shared Aither account UI. Create or sign in with 
 
 ## Production Backend
 
-The dashboard defaults to `https://aither-backend.onrender.com` and reads the public AitherBackend API endpoints. The backend URL can still be changed from **Settings**.
-
-For browser authentication to work across origins, AitherBackend must be deployed over HTTPS and configured with CORS for the dashboard origin. Its session cookie settings must also be compatible with the deployment.
+The dashboard defaults to `https://aither-backend.onrender.com`. AitherBackend must use HTTPS, credentialed CORS, and compatible secure cross-site cookies for GitHub Pages authentication.
 
 ## GitHub Pages
 

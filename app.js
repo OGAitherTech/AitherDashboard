@@ -1,4 +1,4 @@
-const DEFAULT_BACKEND = localStorage.getItem('aither_backend_url') || '';
+const DEFAULT_BACKEND = localStorage.getItem('aither_backend_url') || 'https://aither-backend.onrender.com';
 let backend = DEFAULT_BACKEND.replace(/\/$/, '');
 let cache = {};
 
@@ -46,20 +46,5 @@ function detail(k,v){return `<div class="detail"><label>${esc(k)}</label><strong
 function statCard(k,v){return `<article class="stat"><span>${esc(k)}</span><strong>${esc(v)}</strong></article>`}
 function empty(text){return `<div class="empty">${esc(text)}</div>`}
 function cardFromData(x,title){ const name=x.title||x.name||x.message||title; const description=x.description||x.body||x.detail||x.status||''; return `<article class="item-card"><h3>${esc(name)}</h3><p>${esc(description)}</p></article>` }
-
-function showView(view){
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active-view'));
-  const target=$('view-'+view); if(target) target.classList.add('active-view');
-  document.querySelectorAll('.nav-item[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
-  const titles={overview:'Overview',account:'Account',apps:'Apps',updates:'Updates',notifications:'Notifications',system:'System',settings:'Settings'}; $('pageTitle').textContent=titles[view]||'Overview'; $('sidebar').classList.remove('open');
-}
-document.querySelectorAll('.nav-item[data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
-document.querySelectorAll('[data-view-jump]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.viewJump)));
-$('menuBtn').addEventListener('click',()=> $('sidebar').classList.toggle('open'));
-$('refreshBtn').addEventListener('click',()=>loadData()); $('heroRefresh').addEventListener('click',()=>loadData()); $('forceRefresh').addEventListener('click',()=>loadData()); $('settingsBtn').addEventListener('click',()=>showView('settings'));
-$('logoutBtn').addEventListener('click',async()=>{try{await api('/api/auth/logout');toast('Signed out');await loadData(true)}catch(e){toast(e.message)}});
-$('backendUrl').value=backend;
-$('autoRefresh').checked=localStorage.getItem('aither_auto_refresh')!=='false';
-$('saveSettings').addEventListener('click',()=>{backend=$('backendUrl').value.trim().replace(/\/$/,'');localStorage.setItem('aither_backend_url',backend);localStorage.setItem('aither_auto_refresh',$('autoRefresh').checked);toast('Settings saved');loadData(true)});
-let timer; function configureTimer(){clearInterval(timer);if($('autoRefresh').checked)timer=setInterval(()=>loadData(true),60000)}; $('autoRefresh').addEventListener('change',configureTimer);
-configureTimer(); render(); if(backend) loadData(true); else setConnection(false,'Backend not configured');
+function showView(view){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active-view'));const target=$('view-'+view);if(target)target.classList.add('active-view');document.querySelectorAll('.nav-item[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===view));const titles={overview:'Overview',account:'Account',apps:'Apps',updates:'Updates',notifications:'Notifications',system:'System',settings:'Settings'};$('pageTitle').textContent=titles[view]||'Overview';$('sidebar').classList.remove('open')}
+document.querySelectorAll('.nav-item[data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));document.querySelectorAll('[data-view-jump]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.viewJump)));$('menuBtn').addEventListener('click',()=>$('sidebar').classList.toggle('open'));$('refreshBtn').addEventListener('click',()=>loadData());$('heroRefresh').addEventListener('click',()=>loadData());$('forceRefresh').addEventListener('click',()=>loadData());$('settingsBtn').addEventListener('click',()=>showView('settings'));$('logoutBtn').addEventListener('click',async()=>{try{await api('/api/auth/logout',{method:'POST'});toast('Signed out');await loadData(true)}catch(e){toast(e.message)}});$('backendUrl').value=backend;$('autoRefresh').checked=localStorage.getItem('aither_auto_refresh')!=='false';$('saveSettings').addEventListener('click',()=>{backend=$('backendUrl').value.trim().replace(/\/$/,'');localStorage.setItem('aither_backend_url',backend);localStorage.setItem('aither_auto_refresh',$('autoRefresh').checked);toast('Settings saved');loadData(true)});let timer;function configureTimer(){clearInterval(timer);if($('autoRefresh').checked)timer=setInterval(()=>loadData(true),60000)}$('autoRefresh').addEventListener('change',configureTimer);configureTimer();render();loadData(true);

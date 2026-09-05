@@ -5,18 +5,24 @@ AitherDashboard is the central web dashboard for viewing data exposed by AitherB
 ## Features
 
 - Responsive desktop and mobile UI
+- Direct connection to the production AitherBackend Render deployment
 - Aither Backend session/account status
 - Account profile data
 - Connected app registry
 - Backend updates
 - Notifications
 - Backend status, health, version, and environment
-- Configurable backend URL
+- Configurable backend URL for development or alternate deployments
 - Cookie-based authentication support with `credentials: include`
+- Render connection status and response timing
 - Optional 60-second automatic refresh
 - Works as a static site and is suitable for GitHub Pages
 
-## Aither Backend
+## Production Backend
+
+The dashboard defaults to:
+
+`https://aither-backend.onrender.com`
 
 The dashboard reads the public AitherBackend API endpoints, including:
 
@@ -30,7 +36,7 @@ The dashboard reads the public AitherBackend API endpoints, including:
 - `GET /api/updates`
 - `GET /api/notifications`
 
-Set the backend URL in **Settings**. The dashboard does not contain private API keys or provider secrets.
+The backend URL can still be changed from **Settings**. The dashboard does not contain private API keys or provider secrets.
 
 For browser authentication to work across origins, AitherBackend must be deployed over HTTPS and configured with CORS for the dashboard origin. Its session cookie settings must also be compatible with the deployment.
 
@@ -40,4 +46,4 @@ This is a static HTML/CSS/JavaScript app. Publish the repository's `main` branch
 
 ## Version
 
-AitherDashboard v1.0.0
+AitherDashboard v1.1.0
